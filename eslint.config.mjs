@@ -8,12 +8,13 @@ import prettierConfig from 'eslint-config-prettier';
 export default [
   {
     files: ['*.ts', '*.tsx', '*.vue'],
+    ignores : ['node_modules', 'dist', '*.md', '.vscode', '.idea', '.husky', '.local', '/docs', '/public', '/bin', 'Dockerfile', 'types/*.d.ts'],
     languageOptions: {
       parser: tsparser,
       parserOptions: {
         ecmaVersion: 2020,
         sourceType: 'module',
-        project: './tsconfig.json',
+        project: './tsconfig.eslint.json',
       },
     },
     plugins: {

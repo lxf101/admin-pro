@@ -1,0 +1,10 @@
+// tsconfig.eslint.json
+{
+    "extends": "./tsconfig.json",
+    "include": [
+        "src", // 源码目录
+        "vite.config.ts", // 特殊配置文件
+        "types", // 自定义类型目录（如果有）
+        "*.ts" // 根目录下的其他 TS 文件
+    ]
+}
