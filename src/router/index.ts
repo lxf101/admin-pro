@@ -1,19 +1,20 @@
-import {createRouter, RouteRecordRaw, createWebHashHistory} from 'vue-router'
+import {createRouter, RouteRecordRaw, createWebHistory} from 'vue-router'
 import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
-const routes: Array<RouteRecordRaw> = [
-    {
-        path: '/',
-        name: 'home',
-        component: () => import("../views/home/index.vue"),
-        meta: {},
-        children: []
-    }
-];
+// 组合路由信息
+const modules: Record<string, any> = import.meta.glob(['./modules/*.ts'], {eager: true});
+
+// 配置路由
+const routes: Array<RouteRecordRaw> = [];
+Object.keys(modules).forEach((key) => {
+    const module = modules[key].default;
+    routes.push(module);
+});
 
 const router = createRouter({
-    history: createWebHashHistory(),
-    routes
+    history: createWebHistory(),
+    routes,
 });
 
 router.beforeEach((to, from, next) => {
@@ -21,7 +22,7 @@ router.beforeEach((to, from, next) => {
     next();
 });
 
-router.afterEach(() => {
+router.afterEach((to) => {
     NProgress.done();
 });
 

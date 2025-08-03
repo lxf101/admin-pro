@@ -1,4 +1,5 @@
 <template>
-    <div>home1</div>
+    <div>login</div>
 </template>
+
 <style lang="less"></style>
