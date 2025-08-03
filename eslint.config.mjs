@@ -31,5 +31,5 @@ export default [
     },
   },
   // 关闭 ESLint 中与 Prettier 冲突的规则
-  ...prettierConfig,
+  {...prettierConfig},
 ];
