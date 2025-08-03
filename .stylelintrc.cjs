@@ -2,7 +2,7 @@ module.exports = {
     // 继承推荐规范配置
     extends: [
         'stylelint-config-standard',
-        'stylelint-config-prettier',
+        // 'stylelint-config-prettier',
         'stylelint-config-recommended-less',
         'stylelint-config-standard-vue'
     ],
