@@ -1,9 +1,9 @@
-import {createRouter, RouteRecordRaw, createWebHistory} from 'vue-router'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
+import { createRouter, RouteRecordRaw, createWebHistory } from 'vue-router';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 
 // 组合路由信息
-const modules: Record<string, any> = import.meta.glob(['./modules/*.ts'], {eager: true});
+const modules: Record<string, any> = import.meta.glob(['./modules/*.ts'], { eager: true });
 
 // 配置路由
 const routes: Array<RouteRecordRaw> = [];
@@ -14,12 +14,20 @@ Object.keys(modules).forEach((key) => {
 
 const router = createRouter({
     history: createWebHistory(),
-    routes,
+    routes
 });
+
+const noStatusPage = ['/login', '/about'];
 
 router.beforeEach((to, from, next) => {
     NProgress.start();
-    next();
+    let token = sessionStorage.getItem('userInfo');
+    let userIsLogin = token ? true : false;
+    if (userIsLogin || noStatusPage.includes(to.path)) {
+        next();
+    } else {
+        next('/login');
+    }
 });
 
 router.afterEach((to) => {
@@ -27,5 +35,3 @@ router.afterEach((to) => {
 });
 
 export default router;
-
-
