@@ -1,4 +1,4 @@
 <template>
-    <div>home1</div>
+    <div>role</div>
 </template>
 <script lang="ts" setup></script>

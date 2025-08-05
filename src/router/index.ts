@@ -21,13 +21,14 @@ const noStatusPage = ['/login', '/about'];
 
 router.beforeEach((to, from, next) => {
     NProgress.start();
-    let token = sessionStorage.getItem('userInfo');
-    let userIsLogin = token ? true : false;
-    if (userIsLogin || noStatusPage.includes(to.path)) {
-        next();
-    } else {
-        next('/login');
-    }
+    // let token = sessionStorage.getItem('userInfo');
+    // let userIsLogin = token ? true : false;
+    // if (userIsLogin || noStatusPage.includes(to.path)) {
+    //     next();
+    // } else {
+    //     next('/login');
+    // }
+    next();
 });
 
 router.afterEach((to) => {
