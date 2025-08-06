@@ -31,13 +31,22 @@ service.interceptors.response.use(
     (response: AxiosResponse) => {
         // 响应成功
         if (response.status == 200) {
-            return response.data;
+            let data = response.data;
+            if (data.code != 0) {
+                ElMessage({
+                    message: data.message,
+                    type: 'error'
+                });
+                return Promise.reject(data);
+            } else {
+                return data;
+            }
         }
         ElMessage({
             message: getMessageInfo(response.status),
             type: 'error'
         });
-        return response.data;
+        return response;
     },
     (error: any) => {
         // 响应失败
@@ -48,52 +57,29 @@ service.interceptors.response.use(
                 message: getMessageInfo(response.status),
                 type: 'error'
             });
-        } else {
-            // 处理断网或其他错误
-            ElMessage({
-                message: '网络异常，请检查您的网络连接',
-                type: 'error'
-            });
+            return Promise.reject(response.data);
         }
-        return Promise.reject(error);
+        ElMessage({
+            message: '网络连接异常，请稍后再试！',
+            type: 'error'
+        });
     }
 );
 
-// 二次响应拦截——为响应数据进行定制化处理
-const requestInstance = <T = any>(config: AxiosRequestConfig): Promise<T> => {
-    const conf = config;
-    return new Promise((resolve, reject) => {
-        service.request<any, AxiosResponse<BaseResponse>>(conf).then((res: AxiosResponse<BaseResponse>) => {
-            const data = res.data;
-            if (data.code != 0) {
-                ElMessage({
-                    message: data.message,
-                    type: 'error'
-                });
-                reject(data.message);
-            } else {
-                ElMessage({
-                    message: data.message,
-                    type: 'success'
-                });
-                resolve(data as T);
-            }
-        });
-    });
-};
+export default service;
 
-export function get<T = any, U = any>(config: AxiosRequestConfig, url: string, params?: U): Promise<T> {
-    return requestInstance({ ...config, url, method: 'GET', params });
-}
+// export function get<T = any, U = any>(config: AxiosRequestConfig, url: string, params?: U): Promise<T> {
+//     return requestInstance({ ...config, url, method: 'GET', params });
+// }
 
-export function post<T = any, U = any>(config: AxiosRequestConfig, url: string, data: U): Promise<T> {
-    return requestInstance({ ...config, url, method: 'POST', data });
-}
+// export function post<T = any, U = any>(config: AxiosRequestConfig, url: string, data: U): Promise<T> {
+//     return requestInstance({ ...config, url, method: 'POST', data });
+// }
 
-export function put<T = any, U = any>(config: AxiosRequestConfig, url: string, params?: U): Promise<T> {
-    return requestInstance({ ...config, url, method: 'PUT', params });
-}
+// export function put<T = any, U = any>(config: AxiosRequestConfig, url: string, params?: U): Promise<T> {
+//     return requestInstance({ ...config, url, method: 'PUT', params });
+// }
 
-export function del<T = any, U = any>(config: AxiosRequestConfig, url: string, data: U): Promise<T> {
-    return requestInstance({ ...config, url, method: 'DELETE', data });
-}
+// export function del<T = any, U = any>(config: AxiosRequestConfig, url: string, data: U): Promise<T> {
+//     return requestInstance({ ...config, url, method: 'DELETE', data });
+// }
