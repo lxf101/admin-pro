@@ -31,6 +31,10 @@ const menuList = router.getRoutes().filter((route) => {
 let activeMenu = route.path;
 </script>
 <style lang="less">
+.common-layout {
+    height: 100%;
+}
+
 .el-header {
     padding: 0;
     margin-bottom: 5px;
