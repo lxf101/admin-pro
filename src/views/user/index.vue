@@ -36,9 +36,29 @@
             </el-table-column>
         </el-table>
         <!--编辑用户的弹窗-->
-        <!-- <el-dialog v-model="editShow">
-            
-        </el-dialog> -->
+        <el-dialog v-model="editShow" title="编辑用户信息">
+            <el-form :model="editUser">
+                <el-form-item label="用户昵称" label-width="120px">
+                    <el-input v-model="editUser.nickName" class="w192" autocomplete="off" />
+                </el-form-item>
+                <el-form-item label="用户角色" label-width="120px">
+                    <el-select v-model="editUser.role" multiple class="m-2" size="large" placeholder="请选择角色">
+                        <el-option
+                            v-for="item in roleWidthAuthList"
+                            :key="item.roleId"
+                            :label="item.roleName"
+                            :value="item.roleId"
+                        />
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="editShow = false">取消</el-button>
+                    <el-button type="primary" @click="ensureEditUser">修改</el-button>
+                </span>
+            </template>
+        </el-dialog>
     </div>
 </template>
 <script lang="ts" setup>
@@ -87,7 +107,28 @@ function handleSearchUser() {
     userList.value = res;
 }
 
-function handleEditUser(row: IUser) {}
+function handleEditUser(row: IUser) {
+    editShow.value = true;
+    Object.assign(editUser, {
+        ...row,
+        role: row.role.map((value) => value.role)
+    });
+}
+
+function ensureEditUser() {
+    editShow.value = false;
+    let obj = userList.value.find((item) => item.id === editUser.id);
+    obj!.nickName = editUser.nickName;
+    obj!.role = [];
+    roleWidthAuthList.value.forEach((element) => {
+        if (editUser.role.find((value) => value === element.roleId)) {
+            obj?.role.push({
+                role: element.roleId,
+                roleName: element.roleName
+            });
+        }
+    });
+}
 
 // watch 监听
 watch([() => searchData.nickName, () => searchData.role], () => {
