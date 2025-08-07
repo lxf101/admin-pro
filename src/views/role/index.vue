@@ -33,7 +33,20 @@ onMounted(() => {
 });
 
 // 获取角色列表
-function getRoleList() {}
+function getRoleList() {
+    roleList.value = [
+        {
+            roleName: '管理员',
+            roleId: 1,
+            authority: [1, 2, 4, 5, 6, 7, 8, 9, 11, 13, 14, 15, 16]
+        },
+        {
+            roleName: '普通用户',
+            roleId: 2,
+            authority: [1, 3, 4, 6, 7, 8, 9, 11, 12, 13]
+        }
+    ];
+}
 
 function onAddRole() {
     ElMessageBox.prompt('请输入角色名称', '添加角色', {
