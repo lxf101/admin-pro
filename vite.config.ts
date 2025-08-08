@@ -9,6 +9,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import { fileURLToPath } from 'url';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import {visualizer} from 'rollup-plugin-visualizer';
+import ViteCompression from 'vite-plugin-compression';
 
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     // 获取当前工作目录
@@ -24,6 +26,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         publicDir: fileURLToPath(new URL('./public', import.meta.url)), // 无需处理的静态资源位置
         assetsInclude: fileURLToPath(new URL('./src/assets', import.meta.url)), // 需要处理的静态资源位置
         plugins: [
+            ViteCompression({
+                threshold: 20 * 1024,   // 20KB 超过多少进行压缩
+                ext: '.gz', // 压缩后缀
+                algorithm: 'gzip'   // 压缩算法
+            }),
             // Vue模板文件编译插件
             vue(),
             // jsx文件编译插件
@@ -89,6 +96,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             // 打包大小超出 400kb 提示警告
             chunkSizeWarningLimit: 400,
             rollupOptions: {
+                plugins: [visualizer({open: true})],
+                experimentalLogSideEffects: true,
+                treeshake: {
+                    preset: 'recommended'
+                },
                 // 打包入口文件 根目录下的 index.html
                 // 也就是项目从哪个文件开始打包
                 input: {
@@ -96,10 +108,17 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
                 },
                 // 静态资源分类打包
                 output: {
-                    format: 'esm',
-                    chunkFileNames: 'static/js/[name]-[hash].js',
-                    entryFileNames: 'static/js/[name]-[hash].js',
-                    assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
+                    experimentalMinChunkSize: 20 * 1024,     // 单位：B
+                    manualChunks: (id: string) => {
+                        // html2canvas 只有极少数的页面使用，所有要单独处理
+                        if(id.includes("html2canvas")){
+                            return "html2canvas";
+                        }
+                        if(id.includes('node_modules')){
+                            return 'vendor';
+                        }
+                        // return 'index';
+                    }
                 }
             }
         },

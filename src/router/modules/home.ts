@@ -9,7 +9,7 @@ export default {
         {
             path: '/',
             name: 'HomePage',
-            component: () => import('@/views/home/index.vue'),
+            component: () => import(/* webpackChunkName: "home" */ '@/views/home/index.vue'),
             meta: {
                 isShow: true,
                 title: '项目介绍'
