@@ -26,11 +26,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         publicDir: fileURLToPath(new URL('./public', import.meta.url)), // 无需处理的静态资源位置
         assetsInclude: fileURLToPath(new URL('./src/assets', import.meta.url)), // 需要处理的静态资源位置
         plugins: [
-            // ViteCompression({
-            //     threshold: 20 * 1024,   // 20KB 超过多少进行压缩
-            //     ext: '.gz', // 压缩后缀
-            //     algorithm: 'gzip'   // 压缩算法
-            // }),
+            ViteCompression({
+                threshold: 20 * 1024,   // 20KB 超过多少进行压缩
+                ext: '.gz', // 压缩后缀
+                algorithm: 'gzip'   // 压缩算法
+            }),
             // Vue模板文件编译插件
             vue(),
             // jsx文件编译插件
