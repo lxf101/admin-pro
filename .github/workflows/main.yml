@@ -26,7 +26,7 @@ jobs:
 
       # 部署到 GitHub pages
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3   # 使用部署到 GitHub pages 的 action
+        uses: peaceiris/actions-gh-graph@v3   # 使用部署到 GitHub pages 的 action
         with:
           # 部署到 gh-pages 分支
           branch: gh-graph
