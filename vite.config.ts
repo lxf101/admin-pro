@@ -108,17 +108,18 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
                 },
                 // 静态资源分类打包
                 output: {
-                    experimentalMinChunkSize: 20 * 1024,     // 单位：B
-                    manualChunks: (id: string) => {
-                        // html2canvas 只有极少数的页面使用，所有要单独处理
-                        // if(id.includes("html2canvas")){
-                        //     return "html2canvas";
-                        // }
-                        if(id.includes('node_modules')){
-                            return 'vendor';
-                        }
-                        // return 'index';
-                    },
+                    // experimentalMinChunkSize: 20 * 1024,     // 单位：B
+                    // manualChunks: (id: string) => {
+                    //     // html2canvas 只有极少数的页面使用，所有要单独处理
+                    //     // if(id.includes("html2canvas")){
+                    //     //     return "html2canvas";
+                    //     // }
+                    //     if(id.includes('node_modules')){
+                    //         return 'vendor';
+                    //     }
+                    //     // return 'index';
+                    // },
+                    format: 'esm',
                     chunkFileNames: 'static/js/[name]-[hash].js', // 代码分割后文件名
                     entryFileNames: 'static/js/[name]-[hash:6].js', // 入口文件名
                     assetFileNames: 'static/[ext]/[name]-[hash].[ext]' // 静态资源文件名
