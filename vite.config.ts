@@ -111,13 +111,13 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
                     experimentalMinChunkSize: 20 * 1024,     // 单位：B
                     manualChunks: (id: string) => {
                         // html2canvas 只有极少数的页面使用，所有要单独处理
-                        if(id.includes("html2canvas")){
-                            return "html2canvas";
-                        }
+                        // if(id.includes("html2canvas")){
+                        //     return "html2canvas";
+                        // }
                         if(id.includes('node_modules')){
                             return 'vendor';
                         }
-                        // return 'index';
+                        return 'index';
                     }
                 }
             }
