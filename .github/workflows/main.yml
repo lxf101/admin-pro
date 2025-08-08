@@ -29,7 +29,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3   # 使用部署到 GitHub pages 的 action
         with:
           # 部署到 gh-pages 分支
-          branch: gh-pages
+          branch: gh-graph
           publish_dir: ./dist
           github_token: ${{ secrets.ADMINPRO }}
           user_name: ${{secrets.MY_USER_NAME}}
