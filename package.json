@@ -83,6 +83,10 @@
         ],
         "*.md": [
             "prettier --write"
+        ],
+        "*.css": [
+            "stylelint --fix --allow-empty-input",
+            "git add"
         ]
     }
 }
