@@ -117,8 +117,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
                         if(id.includes('node_modules')){
                             return 'vendor';
                         }
-                        return 'index';
-                    }
+                        // return 'index';
+                    },
+                    chunkFileNames: 'static/js/[name]-[hash].js', // 代码分割后文件名
+                    entryFileNames: 'static/js/[name]-[hash:6].js', // 入口文件名
+                    assetFileNames: 'static/[ext]/[name]-[hash].[ext]' // 静态资源文件名
                 }
             }
         },
