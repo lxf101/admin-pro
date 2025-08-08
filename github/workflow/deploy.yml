@@ -31,7 +31,7 @@ jobs:
           # 部署到 gh-pages 分支
           branch: gh-pages
           publish_dir: ./dist
-          github_token: ${{ secrets.CICDDEMO }}
+          github_token: ${{ secrets.ADMINPRO }}
           user_name: ${{secrets.MY_USER_NAME}}
           user_email: ${{secrets.MY_USER_EMAIL}}
           commit_message: 自动部署  # 部署时的 git 提交信息，自由填写
