@@ -20,7 +20,7 @@
                     ></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" style="width: 100%" @click="userLogin">登录</el-button>
+                    <el-button type="primary" style="width: 100%" @click="userLogin">登录1</el-button>
                 </el-form-item>
             </el-form>
         </div>
