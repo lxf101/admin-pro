@@ -36,7 +36,7 @@ export default {
         {
             path: '/auth',
             name: 'AuthPage',
-            component: import('@/views/auth/index.vue'),
+            component: () => import('@/views/auth/index.vue'),
             meta: {
                 title: '权限模块',
                 isShow: true
